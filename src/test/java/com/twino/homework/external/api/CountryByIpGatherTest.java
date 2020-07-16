@@ -1,10 +1,10 @@
 package com.twino.homework.external.api;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twino.homework.external.api.response.CountryByIpResponse;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,10 +33,15 @@ public class CountryByIpGatherTest {
     @Mock
     Logger logger;
 
+    @BeforeEach
+    public void setup() {
+        ReflectionTestUtils.setField(countryByIpGather, "objectMapper", objectMapper);
+        ReflectionTestUtils.setField(countryByIpGather, "logger", logger);
+    }
+
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     public void getCountryCodeTest(Boolean successResponse) throws IOException {
-        ReflectionTestUtils.setField(countryByIpGather, "objectMapper", objectMapper);
         URL urlMock = new URL("http://unit test url");
 
         CountryByIpResponse responseMock = new CountryByIpResponse();
@@ -68,8 +73,6 @@ public class CountryByIpGatherTest {
     @ParameterizedTest
     @MethodSource(value = "dataProviderForIsApiResponseCountryCodeValidTest")
     public void isApiResponseCountryCodeValidTest(String status, String countryCode, boolean result) {
-        ReflectionTestUtils.setField(countryByIpGather, "objectMapper", objectMapper);
-        ReflectionTestUtils.setField(countryByIpGather, "logger", logger);
         CountryByIpResponse response = new CountryByIpResponse();
         String ipMock = "test ip";
 
@@ -87,8 +90,7 @@ public class CountryByIpGatherTest {
 
     @Test
     public void isApiResponseCountryCodeValidExceptionTest() throws JsonProcessingException {
-        ReflectionTestUtils.setField(countryByIpGather, "objectMapper", objectMapper);
-        ReflectionTestUtils.setField(countryByIpGather, "logger", logger);
+
         CountryByIpResponse response = new CountryByIpResponse();
         String ipMock = "test ip";
 

@@ -7,10 +7,13 @@
 * db creating data validation creation begin 2h
 * done loan adding logic 3h
 * add black-list 1h
+* test initialization create first test 1h
++ 30 min
 
 # how tos
 * http://localhost:8080/user/1
 * http://localhost:8080/user/search/findByNameAndSurname?name=gg%20g&surname=tt%20f
+* http://localhost:8080/loan
 * http://localhost:8080/loan/search/findByUserByUserId_UniqueId?uuid=7ba086c1-29af-4265-8f7d-27315e0c30b2
 * add loan
 ```shell script

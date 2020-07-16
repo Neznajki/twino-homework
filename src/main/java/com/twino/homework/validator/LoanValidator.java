@@ -24,6 +24,14 @@ public class LoanValidator {
             throw new InvalidRequestLoanException("term is mandatory");
         }
 
+        if (addLoanRequest.getLoanAmount() < 1) {
+            throw new InvalidRequestLoanException("loanAmount should be 1 or more");
+        }
+
+        if (addLoanRequest.getTermDays() < 1) {
+            throw new InvalidRequestLoanException("term should be 1 or more");
+        }
+
         this.validateString("name", addLoanRequest.getName());
         this.validateString("surname", addLoanRequest.getSurname());
     }
