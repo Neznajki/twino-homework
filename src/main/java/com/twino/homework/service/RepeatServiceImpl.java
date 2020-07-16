@@ -28,7 +28,6 @@ public class RepeatServiceImpl {
     }
 
     synchronized public Boolean isRepeatRequestAllowed(String countryCode) {
-        cleanup();
         RepeatData actualRepeatData = getActualRepeatData();
 
         boolean isAllowed = actualRepeatData.getRepeatCount(countryCode) < maxRepeats;
