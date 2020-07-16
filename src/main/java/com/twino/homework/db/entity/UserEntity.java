@@ -14,6 +14,7 @@ public class UserEntity {
     private String surname;
     private Timestamp created;
     private Collection<LoanEntity> loansById;
+    private BlacklistEntity blacklistsById;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -90,5 +91,14 @@ public class UserEntity {
 
     public void setLoansById(Collection<LoanEntity> loansById) {
         this.loansById = loansById;
+    }
+
+    @OneToOne(mappedBy = "userByUserId")
+    public BlacklistEntity getBlacklistsById() {
+        return blacklistsById;
+    }
+
+    public void setBlacklistsById(BlacklistEntity blacklistsById) {
+        this.blacklistsById = blacklistsById;
     }
 }

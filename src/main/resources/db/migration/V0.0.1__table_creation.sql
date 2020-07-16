@@ -14,8 +14,9 @@ create table loan
 (
     id int auto_increment,
     user_id int not null,
-    amount float not null,
     term_days int not null,
+    amount float not null,
+    country_iso_code varchar(2) COLLATE latin1_general_ci not null,
     created timestamp default current_timestamp not null,
     constraint loan_pk
         primary key (id),

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class RequestHelper {
-    Logger logger = LoggerFactory.getLogger(CountryByIpGather.class);
+    Logger logger = LoggerFactory.getLogger(RequestHelper.class);
 
     public HttpServletRequest getCurrentRequest() {
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();

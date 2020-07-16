@@ -12,6 +12,7 @@ public class LoanEntity {
     private int termDays;
     private Timestamp created;
     private UserEntity userByUserId;
+    private String countryIsoCode;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,5 +79,15 @@ public class LoanEntity {
 
     public void setUserByUserId(UserEntity userByUserId) {
         this.userByUserId = userByUserId;
+    }
+
+    @Basic
+    @Column(name = "country_iso_code")
+    public String getCountryIsoCode() {
+        return countryIsoCode;
+    }
+
+    public void setCountryIsoCode(String countryIsoCode) {
+        this.countryIsoCode = countryIsoCode;
     }
 }

@@ -16,24 +16,16 @@ import java.net.URL;
 @Service
 public class CountryByIpGather {
     public static final String HTTP_IP_API_COM_JSON = "http://ip-api.com/json/";
-    public static final String DEFAULT_COUNTRY_CODE = "LV";
     ObjectMapper objectMapper;
     Logger logger = LoggerFactory.getLogger(CountryByIpGather.class);
-    RequestMetaDataGatherImpl requestMetaDataGather;
 
     @Autowired
-    public CountryByIpGather(ObjectMapper objectMapper, RequestMetaDataGatherImpl requestMetaDataGather) {
+    public CountryByIpGather(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        this.requestMetaDataGather = requestMetaDataGather;
     }
 
     /** see no reasons on increase complexity to logic by adding batch requests */
-    public String getCountryCode() throws IOException {
-        String ipAddress = requestMetaDataGather.getClientIp();
-        if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
-            return DEFAULT_COUNTRY_CODE;
-        }
-
+    public String getCountryCode(String ipAddress) throws IOException {
         URL url = getUrlForIp(ipAddress);
         CountryByIpResponse result = objectMapper.readValue(url, CountryByIpResponse.class);
 
@@ -41,7 +33,7 @@ public class CountryByIpGather {
             return result.countryCode;
         }
 
-        return DEFAULT_COUNTRY_CODE;
+        return null;
     }
 
     protected boolean isApiResponseCountryCodeValid(String ipAddress, CountryByIpResponse result) {
