@@ -1,3 +1,7 @@
+# setup
+* docker-compose up -d
+* after full container boot feel free to use > http://localhost:8080/
+
 # user pass
 * apiUser
 * qwerty
