@@ -1,4 +1,4 @@
-# setup
+# setup (tested on ubuntu 18.0)
 * docker-compose up -d
 * after full container boot feel free to use > http://localhost:8080/
 
