@@ -36,10 +36,6 @@ curl --location --request PUT 'http://localhost:8080/loan/add' \
 ```
 * http://localhost:8080/blacklist/add/f733ebea-02ac-49da-9f59-4af2115911af
 
-# TODO
-* tests
-* docker-compose up // test
-
 # emotions
 * https://www.youtube.com/watch?v=l6adCa9_d8I
 * https://www.youtube.com/watch?v=cEGcNACF4G8
