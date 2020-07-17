@@ -15,7 +15,7 @@ public class RequestHelper {
     Logger logger = LoggerFactory.getLogger(RequestHelper.class);
 
     public HttpServletRequest getCurrentRequest() {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        RequestAttributes requestAttributes = getRequestAttribute();
         if (requestAttributes instanceof ServletRequestAttributes) {
             return ((ServletRequestAttributes)requestAttributes).getRequest();
         }
@@ -23,5 +23,9 @@ public class RequestHelper {
         logger.error("could not find request");
 
         throw new RuntimeException("this is not http request !!");
+    }
+
+    protected RequestAttributes getRequestAttribute() {
+        return RequestContextHolder.getRequestAttributes();
     }
 }

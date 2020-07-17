@@ -8,7 +8,9 @@
 * done loan adding logic 3h
 * add black-list 1h
 * test initialization create first test 1h
-+ 30 min
+* a covering controller + test setup with tests 2h
+* added test coverage (except UserServiceImpl) 4h 30m
+* finished full test coverage 2h
 
 # how tos
 * http://localhost:8080/user/1

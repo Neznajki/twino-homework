@@ -61,7 +61,6 @@ public class UserServiceImpl {
         user.setUniqueId(UUID.randomUUID().toString());
         user.setCreated(new Timestamp(System.currentTimeMillis()));
 
-
         try {
             this.userRepository.save(user);
         } catch (ConstraintViolationException e) {
@@ -80,19 +79,29 @@ public class UserServiceImpl {
         user = this.userRepository.findByNameAndSurname(name, surname);
 
         if (user == null) {
-            try {
-                TimeUnit.SECONDS.sleep(10);
-            } catch (InterruptedException e) {
-                logger.warn("interrupted sleep timeout on repeat user search delay", e);
-            }
-
-            user = this.userRepository.findByNameAndSurname(name, surname);
-
-            if (user == null) {
-                throw new RuntimeException(String.format("could not create user %s, %s could be master slave problem", name, surname));
-            }
+            user = retryWithPause(name, surname);
         }
 
         return user;
+    }
+
+    protected UserEntity retryWithPause(String name, String surname) {
+        try {
+            pause(10);
+        } catch (InterruptedException e) {
+            logger.warn("interrupted sleep timeout on repeat user search delay", e);
+        }
+
+        UserEntity user = this.userRepository.findByNameAndSurname(name, surname);
+
+        if (user == null) {
+            throw new RuntimeException(String.format("could not create user %s, %s could be master slave problem", name, surname));
+        }
+
+        return user;
+    }
+
+    protected void pause(int timeoutSeconds) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(timeoutSeconds);
     }
 }

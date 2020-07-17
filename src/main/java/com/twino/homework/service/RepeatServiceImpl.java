@@ -14,8 +14,8 @@ public class RepeatServiceImpl {
     public static Integer maxRepeats = 2;
     protected HashMap<Long, RepeatData> repeatDataHashMap = new HashMap<>();
 
-    public void cleanup() {
-        long seconds = Instant.now().getEpochSecond();
+    synchronized public void cleanup() {
+        long seconds = getEpochSecond();
         Collection<Long> outdated = new ArrayList<>();
         for (Long created: repeatDataHashMap.keySet()) {
 
@@ -39,12 +39,12 @@ public class RepeatServiceImpl {
         return isAllowed;
     }
 
-    synchronized public void loanCreationError(String countryCode) {
-        getActualRepeatData().loanCreationError(countryCode);
-    }
+//    synchronized public void loanCreationError(String countryCode) {
+//        getActualRepeatData().loanCreationError(countryCode);
+//    }
 
-    synchronized protected RepeatData getActualRepeatData() {
-        long seconds = Instant.now().getEpochSecond();
+    protected RepeatData getActualRepeatData() {
+        long seconds = getEpochSecond();
         RepeatData result = repeatDataHashMap.get(seconds);
 
         if (result == null) {
@@ -54,7 +54,11 @@ public class RepeatServiceImpl {
         return result;
     }
 
-    private RepeatData createNewRepeatCollection(long seconds) {
+    protected long getEpochSecond() {
+        return Instant.now().getEpochSecond();
+    }
+
+    protected RepeatData createNewRepeatCollection(long seconds) {
         RepeatData result;
         result = new RepeatData();
         repeatDataHashMap.put(seconds, result);
@@ -64,7 +68,7 @@ public class RepeatServiceImpl {
         return result;
     }
 
-    private void addIntervalSumToCollection(long seconds, RepeatData result) {
+    protected void addIntervalSumToCollection(long seconds, RepeatData result) {
         for (int i=1; i< intervalSeconds; i++) {
             Long index = seconds - i;
             if (! repeatDataHashMap.containsKey(index)) {

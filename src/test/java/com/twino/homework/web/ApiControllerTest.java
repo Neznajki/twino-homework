@@ -3,6 +3,7 @@ package com.twino.homework.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.twino.homework.common.staticAccess.EntityGenerator;
 import com.twino.homework.db.entity.LoanEntity;
 import com.twino.homework.db.entity.UserEntity;
 import com.twino.homework.exception.InvalidRequestLoanException;
@@ -29,7 +30,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -54,16 +54,7 @@ public class ApiControllerTest {
         AddLoanRequest request = new AddLoanRequest((float) 33.12, 22, "test name", "test surname");
         ObjectMapper mapper = getObjectMapper();
 
-        LoanEntity loanEntity = new LoanEntity();
-        loanEntity.setId(-11);
-        loanEntity.setTermDays(1);
-        loanEntity.setCountryIsoCode("TEST");
-        loanEntity.setAmount(20.0);
-        loanEntity.setCreated(new Timestamp(System.currentTimeMillis()));
-
-        UserEntity userEntity = getTestUserEntity();
-
-        loanEntity.setUserByUserId(userEntity);
+        LoanEntity loanEntity = EntityGenerator.getTestLoanEntity();
         when(loanService.createLoan(request)).thenReturn(loanEntity);
 
         this.mockMvc.perform(
@@ -87,17 +78,6 @@ public class ApiControllerTest {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.setDateFormat(new StdDateFormat().withColonInTimeZone(true));
         return mapper;
-    }
-
-    protected UserEntity getTestUserEntity() {
-        UserEntity userEntity = new UserEntity();
-
-        userEntity.setId(-11);
-        userEntity.setUniqueId("UNUT TEST UUID");
-        userEntity.setName("UNUT TEST name");
-        userEntity.setSurname("UNUT TEST surname");
-        userEntity.setCreated(new Timestamp(System.currentTimeMillis()));
-        return userEntity;
     }
 
     @Test
@@ -163,7 +143,7 @@ public class ApiControllerTest {
     @MethodSource(value = "dataProviderForAddBlacklistTest")
     @WithMockUser("apiUser")
     public void addBlacklistTest(Exception e) throws Exception {
-        UserEntity userEntity = getTestUserEntity();
+        UserEntity userEntity = EntityGenerator.getTestUserEntity();
         UserResponseData userResponseData = new UserResponseData(userEntity);
         String uuidMock = "test uuid";
 

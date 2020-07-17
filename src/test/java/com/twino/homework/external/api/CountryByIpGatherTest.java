@@ -21,8 +21,7 @@ import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CountryByIpGatherTest {
@@ -84,7 +83,7 @@ public class CountryByIpGatherTest {
         assertEquals(result, countryByIpGather.isApiResponseCountryCodeValid(ipMock, response));
 
         if (! result) {
-            verify(logger).warn(anyString());
+            verify(logger, times(1)).warn(anyString());
         }
     }
 
@@ -102,7 +101,7 @@ public class CountryByIpGatherTest {
 
         assertFalse(countryByIpGather.isApiResponseCountryCodeValid(ipMock, response));
 
-        verify(logger).error(
+        verify(logger, times(1)).error(
             String.format("error in response serialization for IP %s", ipMock)
         );
     }

@@ -46,8 +46,8 @@ public class LoanValidatorTest {
         } else {
             loanValidator.validate(request);
 
-            verify(loanValidator).validateString("name", request.getName());
-            verify(loanValidator).validateString("surname", request.getSurname());
+            verify(loanValidator, times(1)).validateString("name", request.getName());
+            verify(loanValidator, times(1)).validateString("surname", request.getSurname());
         }
     }
 
