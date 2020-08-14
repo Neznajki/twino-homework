@@ -2,7 +2,7 @@
 Create a tiny RESTful web service with the following business requirements:
 * Application must expose REST API endpoints for the following
 functionality:
-* apply for loan (loan amount, term, name, surname and personal id must be provided)
+  * apply for loan (loan amount, term, name, surname and personal id must be provided)
   * list all approved loans
   * list all approved loans by user
 * Service must perform loan application validation according to the following rules and reject application if:
